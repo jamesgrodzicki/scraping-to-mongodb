@@ -15,7 +15,7 @@ const ArticleSchema = new Schema({
         type: String,
         required: true
     },
-    notes: {
+    comments: {
         type: Schema.Types.ObjectId,
         ref: 'Comment'
     }
