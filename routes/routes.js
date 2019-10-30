@@ -15,6 +15,11 @@ module.exports = app => {
                 result.push(data);
             });
             console.log(result);
+            db.Article.create(result).then(function(dbArticle){
+                console.log(dbArticle);
+            }).catch(function(err){
+                console.log(err)
+            });
             res.render('index', {result: result});
         });
     });
