@@ -1,10 +1,6 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
 const mongoose = require('mongoose');
-const axios = require('axios');
-const cheerio = require('cheerio');
-
-const db = require('./models');
 
 const PORT = 3001;
 const app = express();
@@ -16,8 +12,10 @@ app.use(express.static('public'));
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
+require('./routes/routes.js')(app);
+
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 
-mongoose.connect(MONGODB_URI);
+mongoose.connect(MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true});
 
-app.listen(PORT, () => console.log('app: localhost://' + PORT));
+app.listen(PORT, () => console.log('app: http://localhost:' + PORT));
