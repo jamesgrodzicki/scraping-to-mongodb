@@ -1,5 +1,15 @@
-{{#each result}}
-    <p>{{this.title}}</p>
-    <p>{{this.summary}}</p>
-    <p>{{this.link}}</p>
-{{/each}}
+<button>Populate</button>
+<ul>
+    {{#each dbArticle}}
+        <li>{{this.summary}}</li>
+        <li>{{this.link}}</li>
+    {{/each}}
+</ul>
+
+<ul>
+    {{#each foundDB}}
+        <li>{{this.summary}}</li>
+        <li>{{this.link}}</li>
+        <br>
+    {{/each}}
+</ul>

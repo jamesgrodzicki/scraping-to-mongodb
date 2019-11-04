@@ -2,7 +2,8 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const db = require('../models');
 module.exports = app => {
-    app.get('/articles', (req, res) => {
+    
+    app.get('/', (req, res) => {
         db.Article.find({}).then(foundDB => {
             const result = [];
             const valueArr = [];
@@ -22,12 +23,12 @@ module.exports = app => {
                 console.log(result);
                 if(result.length){
                     db.Article.create(result).then(dbArticle => {
-                        res.json(dbArticle);
+                        res.render('index', {dbArticle: dbArticle});
                     }).catch(err => {
                         res.json(err);
                     });
                 } else {
-                    res.json(foundDB);
+                    res.render('index', {foundDB: foundDB});
                 }
             });
         }).catch(err => {
