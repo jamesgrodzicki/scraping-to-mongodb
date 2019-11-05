@@ -2,7 +2,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const db = require('../models');
 module.exports = app => {
-    
+
     app.get('/', (req, res) => {
         db.Article.find({}).then(foundDB => {
             const result = [];
@@ -11,7 +11,7 @@ module.exports = app => {
             console.log(valueArr);
             axios.get('https://www.theguardian.com/us').then(response => {
                 const $ = cheerio.load(response.data);
-                $('div.most-popular__headline').each(function(i, element) {
+                $('div.most-popular__headline').each(function (i, element) {
                     const data = {}
                     data.summary = $(this).children('.fc-item__title').children('.fc-item__link').children('.fc-item__headline').children('.js-headline-text').text();
                     data.link = $(this).children('.fc-item__title').children('a.fc-item__link').attr('href');
@@ -21,14 +21,47 @@ module.exports = app => {
                 });
             }).then(() => {
                 console.log(result);
-                if(result.length){
+                if (result.length) {
                     db.Article.create(result).then(dbArticle => {
-                        res.render('index', {dbArticle: dbArticle});
+                        res.render('index', { dbArticle: dbArticle.reverse() });
                     }).catch(err => {
                         res.json(err);
                     });
                 } else {
-                    res.render('index', {foundDB: foundDB});
+                    res.render('index', { foundDB: foundDB.reverse() });
+                }
+            });
+        }).catch(err => {
+            res.json(err);
+        });
+    });
+
+    app.get('/articles', (req, res) => {
+        db.Article.find({}).then(foundDB => {
+            const result = [];
+            const valueArr = [];
+            foundDB.forEach((j, e) => valueArr.push(j.summary));
+            console.log(valueArr);
+            axios.get('https://www.theguardian.com/us').then(response => {
+                const $ = cheerio.load(response.data);
+                $('div.most-popular__headline').each(function (i, element) {
+                    const data = {}
+                    data.summary = $(this).children('.fc-item__title').children('.fc-item__link').children('.fc-item__headline').children('.js-headline-text').text();
+                    data.link = $(this).children('.fc-item__title').children('a.fc-item__link').attr('href');
+                    if (!valueArr.includes(data.summary)) {
+                        result.push(data);
+                    }
+                });
+            }).then(() => {
+                console.log(result);
+                if (result.length) {
+                    db.Article.create(result).then(dbArticle => {
+                        res.json(dbArticle);
+                    }).catch(err => {
+                        res.json(err);
+                    });
+                } else {
+                    res.json(foundDB);
                 }
             });
         }).catch(err => {

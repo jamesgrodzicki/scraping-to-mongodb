@@ -1,15 +1,33 @@
-<button>Populate</button>
-<ul>
-    {{#each dbArticle}}
-        <li>{{this.summary}}</li>
-        <li>{{this.link}}</li>
-    {{/each}}
-</ul>
+<div class='page'>
+    <div class="left-container">
+        <p>Press populate to see all the articles that have been scraped.</p>
+        <div class='container-1'>
+            <form action='/' method='get'>
+                <button type='submit'>Populate</button>
+            </form>
 
-<ul>
-    {{#each foundDB}}
-        <li>{{this.summary}}</li>
-        <li>{{this.link}}</li>
-        <br>
-    {{/each}}
-</ul>
+            <form action='/articles' method='get'>
+                <button type='submit'>Visit raw JSON</button>
+            </form>
+        </div>
+
+        <ul>
+            {{#each dbArticle}}
+            <li>{{this.summary}}</li>
+            <li><a href={{this.link}}>{{this.link}}</a></li>
+            {{/each}}
+        </ul>
+
+        <ul>
+            {{#each foundDB}}
+            <li>{{this.summary}}</li>
+            <li><a href={{this.link}}>{{this.link}}</a></li>
+            <br>
+            {{/each}}
+        </ul>
+    </div>
+
+    <div class='right-container'>
+        <div class="comments"></div>
+    </div>
+</div>

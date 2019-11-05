@@ -1,0 +1,29 @@
+body {
+    background-color: #ddd;
+    text-align: left;
+}
+
+.page {
+    display: flex;
+}
+
+.left-container {
+    padding: 1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.right-container {
+    padding: 1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.container-1 {
+    display: flex;
+    justify-content: flex-start;
+}
